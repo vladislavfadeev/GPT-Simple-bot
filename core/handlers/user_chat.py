@@ -11,14 +11,24 @@ from core.config.constants import SYS_DESCRIPTION
 
 
 
-async def start(message: Message, state: FSMContext):
+async def start(message: Message):
     await message.answer(
         text=(
             'Привет! Я ChatGPT-3.5 turbo.'
             'Чем могу быть полезна? Просто напишите свой вопрос.'
         )
     )
+
+
+
+async def clear_cache(message: Message, state: FSMContext):
     await state.update_data(context = [])
+    await message.answer(
+        text=(
+            'Контекст диалога успешно удален'
+        )
+    )
+
 
 
 async def some_message(message: Message, bot: Bot, state: FSMContext):
@@ -95,6 +105,10 @@ async def setup_user_handlers(dp: Dispatcher):
     dp.message.register(
         start,
         Command(commands=['start'],)
+    )
+    dp.message.register(
+        clear_cache,
+        Command(commands=['clear_cache'],)
     )
     dp.message.register(
         some_message,
