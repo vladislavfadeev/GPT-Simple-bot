@@ -4,6 +4,7 @@ from logging.config import dictConfig
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
+from core.config.state_storage import storage
 
 from core.handlers import setup_handlers
 from core.config.settigns import app
@@ -18,7 +19,7 @@ async def main():
         token = app.botSetting.botToken,
         parse_mode=ParseMode.HTML,
     )
-    dp = Dispatcher()
+    dp = Dispatcher(storage=storage)
     await setup_handlers(dp)
     try:
         await dp.start_polling(bot, skip_updates=True,)
