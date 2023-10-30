@@ -11,21 +11,23 @@ from core.config.settigns import app
 from core.config.logging_conf import LOGGING_CONFIG
 
 
-
 async def main():
-
     openai.api_key = app.botSetting.authToken
     bot = Bot(
-        token = app.botSetting.botToken,
+        token=app.botSetting.botToken,
         parse_mode=ParseMode.HTML,
     )
     dp = Dispatcher(storage=storage)
     await setup_handlers(dp)
     try:
-        await dp.start_polling(bot, skip_updates=True,)
+        await dp.start_polling(
+            bot,
+            skip_updates=True,
+        )
     finally:
         await bot.session.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     dictConfig(LOGGING_CONFIG)
     asyncio.run(main())
